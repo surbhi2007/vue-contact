@@ -3,7 +3,7 @@
     <div class="p-2">
       <label for="firstName">First Name:</label>
       <input
-        :class="{'warning': !contact.firstName.length && buttonClicked}"
+        :class="{' warning': !contact?.firstName?.length && buttonClicked}    "
         type="text"
         id="firstName"
         v-model="contact.firstName"
@@ -12,7 +12,7 @@
     <div class="p-2">
       <label for="lastName">Last Name:</label>
       <input
-        :class="{'warning': !contact.lastName.length && buttonClicked}"
+        :class="{'warning': !contact?.lastName?.length && buttonClicked}"
         type="text"
         id="lastName"
         v-model="contact.lastName"
@@ -20,39 +20,51 @@
     </div>
     <div class="p-2">
       <label for="phone">Phone Number:</label>
-      <input :class="{'warning': !contact.phone.length && buttonClicked}" type="number" id="phone" v-model="contact.phone" />
+      <input
+        :class="{'warning': !contact?.phone?.length && buttonClicked}"
+        type="number"
+        id="phone"
+        v-model="contact.phone"
+      />
     </div>
-    <button class="p-2 m-2" @click.prevent="changeContacts">{{ buttonName }}</button>
+    <button class="p-2 m-2" @click.prevent="changeContacts">Save and and Go back</button>
+    <button class="p-2 m-2" @click.prevent="$router.push({ name: 'ContactDashboard' })">Cancel</button>
   </form>
 </template>
 
 <script setup>
-import { reactive, computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { reactive, ref } from 'vue';
+import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router'
 const buttonClicked = ref(false);
-const contact = reactive({
-  firstName: '',
-  lastName: '',
-  phone: ''
-});
-
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
-const buttonName = computed(() => {
-  return route.path.split('/')[1];
+
+const contact = reactive({
+  firstName: route.params.firstName,
+  lastName: route.params.lastName,
+  phone: route.params.phone,
+  id: route.params.id || parseInt(Math.random()*100)
 })
 
 function changeContacts() {
   buttonClicked.value = true;
-  console.log(contact, '...contact...');
   if (contact.firstName && contact.lastName && contact.phone) {
-    store.commit('addContactsItem', contact);
-    alert('Contact is added to your list');
+    if (store.state.contacts.find(item => {
+      return item.firstName === contact.firstName
+        && item.lastName === contact.lastName
+        && item.phone === contact.phone
+    })) {
+      alert('We can not add this contact as it already exists in list.');
+    } else if (route.path.includes('add')) {
+      store.commit('addContactsItem', contact);
+    } else {
+      store.commit('updateContactsItem', contact);
+    }
     router.push({ name: 'ContactDashboard' })
   } else {
-    alert('Please fill in all the details');
+    alert('Please fill in valid details');
   }
 }
 </script>

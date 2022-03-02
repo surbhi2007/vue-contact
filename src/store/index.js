@@ -2,11 +2,11 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    contacts: []
+    contacts: [],
+    searchText: ''
   },
   actions: {
     getContacts({ commit }) {
-        console.log('...in action..');
         fetch('https://my-json-server.typicode.com/voramahavir/contacts-mock-response/contacts')
         .then(response => response.json())
         .then(data => commit('setContacts', data))
@@ -16,8 +16,10 @@ export default createStore({
   mutations: {
     setContacts(state, data) {
         state.contacts = data;
-        console.log(state.contacts, '...contacts 2..');
     },
+    setSearchText(state, value) {
+      state.searchText = value;
+  },
     addContactsItem(state, item) {   
       state.contacts.push(item);
     },
@@ -30,10 +32,9 @@ export default createStore({
         return contact;
       });
     },
-    removeContactsItem(state, item) {
-      state.contacts = state.contacts.filter((contact) => {
-        return contact.id != item.id;
-      });
+    removeContactsItem(state, index) {
+      console.log('removeContactsItem');
+      state.contacts.splice(index,1);
     }
   }
 });

@@ -9,13 +9,13 @@ const routes = [
   },
   {
     path: '/add',
-    name: 'ContactForm',
+    name: 'AddContact',
     component: () => import('../views/ContactForm.vue')
   },
   {
-      path: '/edit/:id',
-      name: 'ContactForm',
-      component: () => import('../views/ContactForm.vue')
+    path: '/edit/:id',
+    name: 'UpdateContact',
+    component: () => import('../views/ContactForm.vue')
   }
 ];
 
