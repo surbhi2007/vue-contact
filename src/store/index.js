@@ -33,7 +33,6 @@ export default createStore({
       });
     },
     removeContactsItem(state, index) {
-      console.log('removeContactsItem');
       state.contacts.splice(index,1);
     }
   }
