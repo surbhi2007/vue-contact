@@ -1,4 +1,7 @@
 # user-admin-dashboard
+version: 1.0.0
+
+This Project is built using vue 3 version, vuex and vue-router
 
 ## Project setup
 ```
