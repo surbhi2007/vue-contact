@@ -38,7 +38,12 @@ const contacts = computed(function() {
     }
     return item;
   });
-  return store.state.searchText ? contactWithId.filter(item=> item.firstName.toLowerCase() === store.state.searchText.toLowerCase() || item.phone === store.state.searchText)
+  return store.state.searchText
+        ? contactWithId.filter(item => 
+          item.firstName.toLowerCase().slice(0,store.state.searchText.length) === store.state.searchText.toLowerCase()
+          || item.lastName.toLowerCase().slice(0,store.state.searchText.length) === store.state.searchText.toLowerCase() 
+          || item.phone.toString().includes(store.state.searchText)
+          )
         : contactWithId;
 });
 onMounted(() => {
