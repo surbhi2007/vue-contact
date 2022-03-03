@@ -1,5 +1,8 @@
 # user-admin-dashboard
-This Project is built using vue 3 version, vuex and vue-router
+A user can view the contact s/he has and can add or update any contact.
+They can also search the any contact by the first name, last name or phone number.
+Tech Stack used:
+ vue 3, vuex and vue-router.
 
 ## Project setup
 ```
