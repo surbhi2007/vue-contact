@@ -32,8 +32,14 @@ import ContactHeader from '../components/ContactHeader';
 const store = useStore();
 const router = useRouter();
 const contacts = computed(function() {
-  return store.state.searchText ? store.state.contacts.filter(item=> item.firstName.toLowerCase() === store.state.searchText.toLowerCase() || item.phone === store.state.searchText)
-        : store.state.contacts;
+  const contactWithId = store.state.contacts.map((item, ind) => {
+    if(!item.id){
+    item.id = ind+1;
+    }
+    return item;
+  });
+  return store.state.searchText ? contactWithId.filter(item=> item.firstName.toLowerCase() === store.state.searchText.toLowerCase() || item.phone === store.state.searchText)
+        : contactWithId;
 });
 onMounted(() => {
   if (!contacts.value.length) {

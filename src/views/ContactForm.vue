@@ -45,7 +45,7 @@ const contact = reactive({
   firstName: route.params.firstName,
   lastName: route.params.lastName,
   phone: route.params.phone,
-  id: route.params.id || parseInt(Math.random()*100)
+  id: route.params.id
 })
 
 function changeContacts() {
